@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+
+def run(msg, cmd, error = 'Failed')
+  puts msg
+
+  puts cmd
+  system(cmd)
+  puts
+
+  if $?.exitstatus != 0
+    puts error.gsub(/^/, '!!! ').gsub(/ +/, ' ')
+    exit $?.exitstatus
+  end
+end
+
+def install_bundler
+  run '# Checking for Bundler',
+      '(bundle --version &> /dev/null) || gem install bundler',
+      'Could not automatically install bundler
+       Please see https://bundler.io/doc/troubleshooting.html'
+end
+
+def install_gems
+  run '# Installing gems',
+      'bundle install'
+end
+
+def run_tests
+  run '# Running tests',
+      'bundle exec rspec --format=documentation'
+end
+
+install_bundler
+install_gems
+run_tests
