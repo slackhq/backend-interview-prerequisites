@@ -1,5 +1,7 @@
 require 'socket'
 
+require_relative 'message'
+
 class Server
   DEFAULT_PORT = 8000
 
@@ -12,8 +14,10 @@ class Server
     Thread.new do
       while (!stop && s = server.accept)
         Thread.new(s) do |socket|
-          message = socket.readline.strip
-          socket.puts(message)
+          text = socket.readline.strip
+          Message.create(msg: text)
+          m = Message.last
+          socket.puts(m.msg)
           socket.close
         end
       end
