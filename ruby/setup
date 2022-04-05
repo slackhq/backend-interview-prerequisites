@@ -17,12 +17,22 @@ def install_bundler
   run '# Checking for Bundler',
       '(bundle --version &> /dev/null) || gem install bundler',
       'Could not automatically install bundler
-       Please see https://bundler.io/doc/troubleshooting.html'
+       This is most commonly an OS permissions issue
+
+       Please try `gem install bundler --user-install`
+
+       If that does not work, see:
+       https://bundler.io/doc/troubleshooting.html'
 end
 
 def install_gems
   run '# Installing gems',
-      'bundle install'
+      'bundle install',
+      'Gems could not be installed
+       Please check the bundler output for the specific error
+
+       If a newer version of Ruby is needed, see:
+       https://www.ruby-lang.org/en/documentation/installation/'
 end
 
 def run_tests
