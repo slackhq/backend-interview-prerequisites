@@ -6,9 +6,6 @@ on:
       - "java/**"
   workflow_dispatch:
 
-defaults:
-  working-directory: "java/"
-
 jobs:
   run_tests:
     name: Run Tests
@@ -31,4 +28,5 @@ jobs:
           java-version: ${{ matrix.java }}
 
       - name: Run Maven 🚀
+        working-directory: ./java
         run: mvn clean package
