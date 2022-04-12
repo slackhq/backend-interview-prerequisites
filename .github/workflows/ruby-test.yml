@@ -1,0 +1,31 @@
+name: Test Ruby Setup
+
+on:
+  push:
+    paths:
+      - "ruby/**"
+  workflow_dispatch:
+
+jobs:
+  run_tests:
+    name: Test Ruby ${{ matrix.ruby }} (${{ matrix.os }})
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      max-parallel: 5
+      matrix:
+        os: ["ubuntu-latest", "macos-latest", "windows-latest"]
+        ruby: ["2.7", "3.0", "3.1"]
+
+    steps:
+      - name: Checkout Code 📦
+        uses: actions/checkout@v3
+
+      - name: Setup Ruby 🏗
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+
+      - name: Run 🚀
+        working-directory: ./ruby
+        run: ./setup
