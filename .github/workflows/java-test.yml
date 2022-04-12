@@ -1,0 +1,34 @@
+name: Test Java Setup
+
+on:
+  push:
+    paths:
+      - "java/**"
+  workflow_dispatch:
+
+defaults:
+  working-directory: "java/"
+
+jobs:
+  run_tests:
+    name: Run Tests
+
+    runs_on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: ["ubuntu-latest", "macos-latest", "windows-latest"]
+        java: ["8", "11", "17", "18"]
+        distribution: ["zulu", "temurin", "liberica", "microsoft"]
+
+    steps:
+      - name: Checkout Code 📦
+        uses: actions/checkout@v3
+
+      - name: Setup Java 🏗
+        uses: actions/setup-java@v3
+        with:
+          distribution: ${{ matrix.distribution }}
+          java-version: ${{ matrix.java }}
+
+      - name: Run Maven 🚀
+        run: mvn clean package
