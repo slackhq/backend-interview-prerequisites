@@ -10,7 +10,7 @@ func InitDatastore(dbPath, schemaPath string) *Datastore {
 	db := initDatabase(dbPath, schemaPath)
 
 	datastore := Datastore{
-		TestTableStore: initUserStore(db),
+		TestTableStore: initTestStore(db),
 	}
 
 	return &datastore

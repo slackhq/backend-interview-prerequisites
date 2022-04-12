@@ -48,7 +48,7 @@ func New() *Client {
 }
 
 // Connect ...
-func (c *Client) Connect(username string) error {
+func (c *Client) Connect(name string) error {
 	c.mutex.Lock()
 	defer c.mutex.Unlock()
 
@@ -57,18 +57,18 @@ func (c *Client) Connect(username string) error {
 		return err
 	}
 	log.Printf("got connection %+v", connection)
-	c.clients[username] = connection
+	c.clients[name] = connection
 
 	// start a listener for each connection
-	go c.listenForResponse(connection, username)
+	go c.listenForResponse(connection, name)
 	return nil
 }
 
-func (c *Client) Disconnect(username string) error {
+func (c *Client) Disconnect(name string) error {
 	c.mutex.Lock()
 	defer c.mutex.Unlock()
 
-	var connection, err = c.getConnection(username)
+	var connection, err = c.getConnection(name)
 	if err != nil {
 		return err
 	}
@@ -76,9 +76,9 @@ func (c *Client) Disconnect(username string) error {
 }
 
 // SendRequest send a request to the server
-func (c *Client) SendRequest(username, requestType string, data map[string]interface{}) (*gabs.Container, error) {
+func (c *Client) SendRequest(name, requestType string, data map[string]interface{}) (*gabs.Container, error) {
 
-	var connection, err = c.getConnection(username)
+	var connection, err = c.getConnection(name)
 	if err != nil {
 		return nil, err
 	}
@@ -102,7 +102,6 @@ func (c *Client) SendRequest(username, requestType string, data map[string]inter
 		return nil, err
 	}
 
-	// set up receive channel for the reply
 	var respChan = make(chan []byte)
 
 	responseMap.mutex.Lock()
@@ -120,7 +119,7 @@ func (c *Client) SendRequest(username, requestType string, data map[string]inter
 	}
 }
 
-func (c *Client) listenForResponse(connection net.Conn, username string) {
+func (c *Client) listenForResponse(connection net.Conn, name string) {
 	// set SetReadDeadline
 	err := connection.SetReadDeadline(time.Now().Add(5 * time.Second))
 	if err != nil {
@@ -138,7 +137,7 @@ func (c *Client) listenForResponse(connection net.Conn, username string) {
 				// time out
 				log.Fatalln("read timeout:", err)
 			} else if err == io.EOF {
-				err = c.addResultToRecives(recvBuf[0:n], username)
+				err = c.addResultToRecives(recvBuf[0:n], name)
 				if err != nil {
 					log.Fatalln("received EOF and unable to add body to response map:", err)
 				}
@@ -150,7 +149,7 @@ func (c *Client) listenForResponse(connection net.Conn, username string) {
 				log.Fatalln("read error:", err)
 			}
 		}
-		err = c.addResultToRecives(recvBuf[0:n], username)
+		err = c.addResultToRecives(recvBuf[0:n], name)
 		if err != nil {
 			log.Fatalln("unable to add body to response map:", err)
 		}
@@ -158,14 +157,14 @@ func (c *Client) listenForResponse(connection net.Conn, username string) {
 	}
 }
 
-func (c *Client) addResultToRecives(body []byte, username string) error {
+func (c *Client) addResultToRecives(body []byte, name string) error {
 	var messages = strings.Split(string(body), "\n")
 	for _, m := range messages {
 		if m == "" {
 			// empty line skip
 			continue
 		}
-		log.Printf("%s received message: %s\n", username, m)
+		log.Printf("%s received message: %s\n", name, m)
 		var (
 			err       error
 			cleanBody = []byte(strings.TrimSpace(m))
@@ -179,7 +178,7 @@ func (c *Client) addResultToRecives(body []byte, username string) error {
 		if !j.ExistsP("reply_to") {
 			// no one is listing for this message add outputs and continue
 			c.mutex.Lock()
-			c.outputs[username] = append(c.outputs[username], string(cleanBody))
+			c.outputs[name] = append(c.outputs[name], string(cleanBody))
 			c.mutex.Unlock()
 			continue
 		}
@@ -190,11 +189,11 @@ func (c *Client) addResultToRecives(body []byte, username string) error {
 	return nil
 }
 
-func (c *Client) getConnection(username string) (net.Conn, error) {
+func (c *Client) getConnection(name string) (net.Conn, error) {
 	var connection net.Conn
 	var ok bool
-	if connection, ok = c.clients[username]; !ok {
-		return nil, errors.New("unknown user " + username)
+	if connection, ok = c.clients[name]; !ok {
+		return nil, errors.New("unknown name " + name)
 	}
 	return connection, nil
 }

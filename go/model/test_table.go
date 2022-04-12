@@ -6,16 +6,15 @@ import (
 	"time"
 )
 
-// UserStore implements all user model access functions
+// TestStore implements all model access functions
 type TestTableStore struct {
 	db *sql.DB
 }
 
-func initUserStore(db *sql.DB) *TestTableStore {
+func initTestStore(db *sql.DB) *TestTableStore {
 	return &TestTableStore{db}
 }
 
-// User represents a user in the system
 type TestTable struct {
 	ID           int    `json:"id"`
 	Name         string `json:"name"`
@@ -23,7 +22,6 @@ type TestTable struct {
 	DateCreate   int    `json:"date_create"`
 }
 
-// Create inserts a new user with the given name / password
 func (store *TestTableStore) Create(name, randomString string) *TestTable {
 	date := int64(time.Now().UnixNano() / 1000)
 
@@ -34,7 +32,7 @@ func (store *TestTableStore) Create(name, randomString string) *TestTable {
 	)
 
 	if err != nil {
-		log.Printf("error creating user: %v", err)
+		log.Printf("error creating: %v", err)
 		return nil
 	}
 
@@ -42,13 +40,12 @@ func (store *TestTableStore) Create(name, randomString string) *TestTable {
 	return &TestTable{ID: int(id), Name: name, RandomString: randomString, DateCreate: int(date)}
 }
 
-// GetByName returns a user with the given name
 func (store *TestTableStore) GetByName(name string) *TestTable {
-	var user = TestTable{}
+	var test = TestTable{}
 	row := store.db.QueryRow("select id,name,random_string,date_create from test_table where name = :name", sql.Named("name", name))
-	switch err := row.Scan(&user.ID, &user.Name, &user.RandomString, &user.DateCreate); err {
+	switch err := row.Scan(&test.ID, &test.Name, &test.RandomString, &test.DateCreate); err {
 	case nil:
-		return &user
+		return &test
 	case sql.ErrNoRows:
 		return nil
 	default:
@@ -57,13 +54,12 @@ func (store *TestTableStore) GetByName(name string) *TestTable {
 	}
 }
 
-// GetByID returns a user with the given ID
 func (store *TestTableStore) GetByID(id int) *TestTable {
-	var user = TestTable{}
+	var test = TestTable{}
 	row := store.db.QueryRow("select id,name,random_string,date_create from test_table where id = :id", sql.Named("id", id))
-	switch err := row.Scan(&user.ID, &user.Name, &user.RandomString, &user.DateCreate); err {
+	switch err := row.Scan(&test.ID, &test.Name, &test.RandomString, &test.DateCreate); err {
 	case nil:
-		return &user
+		return &test
 	case sql.ErrNoRows:
 		return nil
 	default:

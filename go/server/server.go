@@ -19,18 +19,16 @@ type Server struct {
 	// global lock
 	lock sync.Mutex
 
-	// map of channelID to subscribed client sessions
 	subscriptions map[int][]*clientSession
 
-	// map of userID to active session(s)
-	userSessions map[int][]*clientSession
+	sessions map[int][]*clientSession
 }
 
 // StartServer creates and starts new server
 func StartServer(dispatcher Dispatcher) {
 	var s = Server{
 		subscriptions: map[int][]*clientSession{},
-		userSessions:  map[int][]*clientSession{},
+		sessions:      map[int][]*clientSession{},
 	}
 	s.listen(dispatcher)
 }
@@ -72,7 +70,7 @@ func (s *Server) serve(conn net.Conn, dispatcher Dispatcher) {
 			if err != io.EOF {
 				log.Printf("error reading from socket: %v", err)
 			}
-			log.Printf("session disconnected for user %d", session.ID())
+			log.Printf("session disconnected %d", session.ID())
 			s.lock.Lock()
 			defer s.lock.Unlock()
 
@@ -116,18 +114,18 @@ func (s *Server) dispatch(dispatcher Dispatcher, session *clientSession, payload
 }
 
 // associateSession assigns the given session to the map of connections for the user
-func (s *Server) associateSession(userID int, session *clientSession) {
-	sessions, _ := s.userSessions[userID]
+func (s *Server) associateSession(id int, session *clientSession) {
+	sessions, _ := s.sessions[id]
 	if sessions == nil {
 		sessions = make([]*clientSession, 0, 10)
 	}
-	s.userSessions[userID] = append(sessions, session)
+	s.sessions[id] = append(sessions, session)
 }
 
 // subscribe registers all active sessions for the given user to receive messages for
 // the given channel
 func (s *Server) subscribe(subscriptionID, id int) {
-	sessions, _ := s.userSessions[id]
+	sessions, _ := s.sessions[id]
 	if sessions == nil {
 		// user is not logged in... nothing to do
 		return
@@ -143,7 +141,6 @@ func (s *Server) subscribe(subscriptionID, id int) {
 	}
 }
 
-// sendBroadcast sends the message to all sessions subscribed to the channel
 func (s *Server) sendBroadcast(subscriptionID int, message []byte) []int {
 	sessions, found := s.subscriptions[subscriptionID]
 	ids := make([]int, 0, 10)
@@ -159,7 +156,7 @@ func (s *Server) sendBroadcast(subscriptionID int, message []byte) []int {
 
 // unsubscribeSession removes all current subscriptions for the given session
 func (s *Server) unsubscribeSession(deadSession *clientSession) {
-	for id, sessions := range s.userSessions {
+	for id, sessions := range s.sessions {
 		// Filter in place adapted from https://github.com/golang/go/wiki/SliceTricks
 		n := 0
 		for _, session := range sessions {
@@ -168,7 +165,7 @@ func (s *Server) unsubscribeSession(deadSession *clientSession) {
 				n++
 			}
 		}
-		s.userSessions[id] = sessions[:n]
+		s.sessions[id] = sessions[:n]
 	}
 
 	for subscriptionID, sessions := range s.subscriptions {

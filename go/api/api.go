@@ -49,7 +49,6 @@ func (api *API) dispatch(session Session, requestType string, requestID int, pay
 		return fmt.Errorf("unimplemented API method %s", requestType)
 	}
 
-	// Make sure that the user is logged in for most API requests EXCEPT login / user creation
 	switch requestType {
 	case "test.create":
 		break

@@ -22,9 +22,9 @@ type broadcastRequest struct {
 }
 
 type Message struct {
-	Type    string `json:"type"`
-	User    int    `json:"user"`
-	Channel int    `json:"channel"`
+	Type      string `json:"type"`
+	RequestId int    `json:"requestId"`
+	Test      int    `json:"test"`
 }
 
 func (api *API) CreateHandler(session Session, requestID int, payload []byte) error {
@@ -34,11 +34,11 @@ func (api *API) CreateHandler(session Session, requestID int, payload []byte) er
 		return err
 	}
 
-	user := api.datastore.TestTableStore.Create(request.Name, request.RandomString)
+	test := api.datastore.TestTableStore.Create(request.Name, request.RandomString)
 
-	session.SetID(user.ID)
+	session.SetID(test.ID)
 
-	response := apiResponse{true, requestID, user}
+	response := apiResponse{true, requestID, test}
 	data, err := json.Marshal(response)
 	if err != nil {
 		return err

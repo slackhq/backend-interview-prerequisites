@@ -2,19 +2,18 @@ package api
 
 // Session wraps a user session
 type Session interface {
-	// UserID returns the user id for the current session
+	// ID returns the id for the current session
 	ID() int
 
-	// SetUserID sets the user id in the current session (to be used in login)
+	// SetID sets the id in the current session
 	SetID(userID int)
 
 	// Send a reply on the current connection
 	Send(message []byte)
 
-	// Subscribe the given user ID to the given channel ID
-	Subscribe(channelID, userID int)
+	// Subscribe the given ID
+	Subscribe(id, userID int)
 
-	// Broadcast the message to all sessions subscribed to the given channel.
-	// Returns the set of connected users that received the message.
-	Broadcast(channelID int, message []byte) []int
+	// Broadcast a message.
+	Broadcast(id int, message []byte) []int
 }

@@ -16,12 +16,6 @@ const (
 * This is a the pre-interview test to make sure everything will run on the interview day
  */
 
-// TestEverything does an end to end test of the server
-// Using gabs to pluck values out of json to save us from having to create a bunch of structs
-// you can read more here https://github.com/Jeffail/gabs
-// In general the client will return a *gabs.Container as an api response. Fields within the response
-// can be accessed via a jsonp or jq syntax. e.g. if response is `{ "foo": "bar", "fooz": { "id": 1 } }` you can access the "id"
-// with an expression like `response.Path("fooz.id").Data().(string)`
 func TestEverything(t *testing.T) {
 
 	var client = New()

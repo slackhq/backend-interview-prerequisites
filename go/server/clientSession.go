@@ -28,10 +28,10 @@ func (session *clientSession) Send(message []byte) {
 	session.writer.Flush()
 }
 
-func (session *clientSession) Subscribe(subscriptionID, userID int) {
-	session.server.subscribe(subscriptionID, userID)
+func (session *clientSession) Subscribe(subscriptionID, id int) {
+	session.server.subscribe(subscriptionID, id)
 }
 
-func (session *clientSession) Broadcast(channelID int, message []byte) []int {
-	return session.server.sendBroadcast(channelID, message)
+func (session *clientSession) Broadcast(id int, message []byte) []int {
+	return session.server.sendBroadcast(id, message)
 }
