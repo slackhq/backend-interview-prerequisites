@@ -113,7 +113,6 @@ func (s *Server) dispatch(dispatcher Dispatcher, session *clientSession, payload
 	dispatcher.Dispatch(context.WithValue(context.Background(), SessionKey, session), requestType.(string), requestID, payload)
 }
 
-// associateSession assigns the given session to the map of connections for the user
 func (s *Server) associateSession(id int, session *clientSession) {
 	sessions, _ := s.sessions[id]
 	if sessions == nil {
@@ -122,12 +121,9 @@ func (s *Server) associateSession(id int, session *clientSession) {
 	s.sessions[id] = append(sessions, session)
 }
 
-// subscribe registers all active sessions for the given user to receive messages for
-// the given channel
 func (s *Server) subscribe(subscriptionID, id int) {
 	sessions, _ := s.sessions[id]
 	if sessions == nil {
-		// user is not logged in... nothing to do
 		return
 	}
 

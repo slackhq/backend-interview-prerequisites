@@ -25,7 +25,6 @@ type Client struct {
 
 type responses struct {
 	mutex sync.Mutex
-	// map of requestID to response channel
 	resps map[uint32]chan []byte
 }
 
