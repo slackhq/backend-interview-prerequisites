@@ -8,7 +8,7 @@ on:
 
 jobs:
   run_tests:
-    name: Run Tests
+    name: Test Java ${{ matrix.java }} ${{ matrix.distribuion }} (${{ matrix.os }})
 
     runs-on: ${{ matrix.os }}
     strategy:
