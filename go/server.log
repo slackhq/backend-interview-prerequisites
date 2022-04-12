@@ -1,0 +1,19 @@
+2022/04/12 15:58:56 initializing database at datastore.db with schema at schema.sql
+2022/04/12 15:58:56 got new connection
+2022/04/12 15:58:56 got new connection
+2022/04/12 15:58:56 got api request test.create {"name":"session1","random_string":"ses11","request_id":1,"type":"test.create"}
+2022/04/12 15:58:56 sending to message 1: {"ok":true,"reply_to":1,"test":{"id":1,"name":"session1","random_string":"ses11","date_create":1649804336809850}}
+2022/04/12 15:58:56 got api request test.create {"name":"session2","random_string":"ses22","request_id":2,"type":"test.create"}
+2022/04/12 15:58:56 sending to message 2: {"ok":true,"reply_to":2,"test":{"id":2,"name":"session2","random_string":"ses22","date_create":1649804336811322}}
+2022/04/12 15:58:56 got api request test.info {"request_id":3,"test_id":1,"type":"test.info"}
+2022/04/12 15:58:56 sending to message 1: {"ok":true,"reply_to":3,"test":{"id":1,"name":"session1","random_string":"ses11","date_create":1649804336809850}}
+2022/04/12 15:58:56 got api request test.info {"request_id":4,"test_id":2,"type":"test.info"}
+2022/04/12 15:58:56 sending to message 2: {"ok":true,"reply_to":4,"test":{"id":2,"name":"session2","random_string":"ses22","date_create":1649804336811322}}
+2022/04/12 15:58:56 got api request test.broadcast {"request_id":5,"test_id":1,"type":"test.broadcast"}
+2022/04/12 15:58:56 sending to message 1: {"type":"message","user":1,"channel":1}
+2022/04/12 15:58:56 sending to message 1: {"ok":true,"reply_to":5,"test":{"id":1,"name":"session1","random_string":"ses11","date_create":1649804336809850}}
+2022/04/12 15:58:56 got api request test.broadcast {"request_id":6,"test_id":2,"type":"test.broadcast"}
+2022/04/12 15:58:56 sending to message 2: {"type":"message","user":2,"channel":2}
+2022/04/12 15:58:56 sending to message 2: {"ok":true,"reply_to":6,"test":{"id":2,"name":"session2","random_string":"ses22","date_create":1649804336811322}}
+2022/04/12 15:58:56 session disconnected for user 1
+2022/04/12 15:58:56 session disconnected for user 2
