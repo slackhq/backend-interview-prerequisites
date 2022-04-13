@@ -1,0 +1,31 @@
+name: Test PHP Setup
+
+on:
+  push:
+    paths:
+      - "php/**"
+  workflow_dispatch:
+
+jobs:
+  run_tests:
+    name: Test PHP ${{ matrix.php }} (${{ matrix.os }})
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      max-parallel: 5
+      matrix:
+        os: ["ubuntu-latest", "macos-latest", "windows-latest"]
+        php: ["7.0", "8.0"]
+
+    steps:
+      - name: Checkout Code 📦
+        uses: actions/checkout@v3
+
+      - name: Setup PHP 🏗
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+
+      - name: Run 🚀
+        working-directory: ./php
+        run: ./setup
