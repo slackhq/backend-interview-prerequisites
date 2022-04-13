@@ -28,4 +28,4 @@ jobs:
 
       - name: Run 🚀
         working-directory: ./go
-        run: ./run_test.sh
+        run: ./setup.sh
