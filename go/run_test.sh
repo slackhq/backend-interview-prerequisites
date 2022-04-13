@@ -14,7 +14,7 @@ rm -f ./server.log
 touch ./server.log
 
 # start the server in the background and give it a second to attach to the network interface
-./setup -db datastore.db -schema schema.sql > ./server.log 2>&1 &
+./setup.sh -db datastore.db -schema schema.sql > ./server.log 2>&1 &
 sleep 1
 
 tail -F ./server.log &
