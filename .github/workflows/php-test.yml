@@ -29,3 +29,23 @@ jobs:
       - name: Run 🚀
         working-directory: ./php
         run: ./setup
+
+  run_tests_windows:
+    name: Test PHP 7.0 (windows-latest)
+
+    runs-on: windows-latest
+    strategy:
+      max-parallel: 5
+
+    steps:
+      - name: Checkout Code 📦
+        uses: actions/checkout@v3
+
+      - name: Setup PHP 🏗
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.0
+
+      - name: Run 🚀
+        working-directory: ./php
+        run: echo "testing on windows"
