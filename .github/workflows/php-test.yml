@@ -48,4 +48,4 @@ jobs:
 
       - name: Run 🚀
         working-directory: ./php
-        run: echo "testing on windows"
+        run: ./setup
