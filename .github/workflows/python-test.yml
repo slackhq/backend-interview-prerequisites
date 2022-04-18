@@ -26,10 +26,6 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
 
-      - name: Install Packages 💾
-        working-directory: ./python
-        run: pip install -r requirements.txt
-
       - name: Run 🚀
         working-directory: ./python
         run: python ./setup.py
