@@ -1,7 +1,6 @@
 from src.database import database
 from src.server import server
-from threading import Thread
-import socket
+from src.client import client
 import unittest
 
 
@@ -13,19 +12,18 @@ class TestSetup(unittest.TestCase):
         self.db.initialize()
 
         # Initialize server on background thread
-        self.server = server.Server((server.Server.DEFAULT_SERVER_HOST,
-                                     server.Server.DEFAULT_SERVER_PORT), server.ServerHandler)
-        Thread(target=self.server.serve_forever).start()
+        self.server = server.Server()
+        self.server.initialize()
 
         # Initialize mock client to send socket messages to server
-        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.socket.connect((server.Server.DEFAULT_SERVER_HOST,
-                             server.Server.DEFAULT_SERVER_PORT))
+        self.client = client.Client(
+            server_host=server.Server.DEFAULT_SERVER_HOST, server_port=server.Server.DEFAULT_SERVER_PORT)
+        self.client.initialize()
 
     @classmethod
     def tearDownClass(self):
-        self.socket.close()
-        self.server.shutdown()
+        self.client.cleanup()
+        self.server.cleanup()
         self.db.cleanup()
 
     def test_db(self):
@@ -41,9 +39,7 @@ class TestSetup(unittest.TestCase):
         self.assertEqual(id, 2)
 
     def test_server(self):
-        self.socket.send(b'Hello, world')
-
-        result = self.socket.recv(1024).decode()
+        result = self.client.send('Hello, world')
 
         self.assertEqual(result, 'HELLO, WORLD')
 
