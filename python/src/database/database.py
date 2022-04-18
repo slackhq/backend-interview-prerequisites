@@ -28,10 +28,14 @@ class Database:
 
         message = 'Current time: ' + str(time.time())
 
-        self.db.execute(sql, (message,))
+        return self.db.execute(sql, (message,)).lastrowid
 
     def close(self):
         self.db.close()
+
+    def reconnect(self):
+        self.close()
+        self.initialize()
 
     def cleanup(self):
         self.close()
