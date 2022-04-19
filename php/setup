@@ -1,0 +1,9 @@
+# start the server in the background and give it a second to attach to the network interface
+# php ./src/server.php >/dev/null 2>/dev/null &
+php ./src/server.php &
+sleep 1
+
+# kill the server when this script completes
+trap 'kill $(jobs -p)' EXIT
+
+php ./tests/test.php
