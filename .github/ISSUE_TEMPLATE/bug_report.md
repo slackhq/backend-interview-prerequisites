@@ -26,9 +26,9 @@ If applicable, add screenshots to help explain your problem.
 
 #### Reproducible in:
 
-{project_name} version:
+backend-interview-prerequisites version:
 
-{platform_name} version:
+language(s) (e.g., PHP) and version (e.g., 7.0):
 
 OS version(s):
 

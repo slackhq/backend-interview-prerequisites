@@ -1,24 +1,13 @@
-# oss-guidelines
+# backend-interview-prerequisites
 
-A repo containing all the basic file templates and general guidelines for any open source project at Slack.
+A project to ensure that your backend onsite interview at Slack runs smoothly.
 
 ## Usage
 
-It's recommended to place all files except `README.md` and `LICENSE` into the `.github/` directory at
-the top level of your repository. The `LICENSE` file should be placed at the top level.
+If you can successfully run the `setup` script for the language of your choice, you should be able to run the actual interview project as well.
 
-Next, you should search and replace all instances of the following strings:
-
-*  `{project_name}`: This is human readable name for your project, sometimes useful to just use the package name for the distribution (e.g. `@slack/events-api`).
-*  `{project_slug}`: This is usually the last two path segments of the URL on GitHub (e.g. `slackapi/node-slack-events-api`).
-*  `{platform_name}`: The name of the relevant platform this module is built for (e.g. `node.js`).
-
-Next, customize the templates for you needs. At a minimum, you will need to replace the quoted areas
-in `maintainers_guide.md` and `pull_request_template.md`. **It is recommended to be familiar with all
-the content before committing it into your project.** This repo serves as a base case but there's
-room for you to add or remove pieces until it is right for your project.
-
-All the examples above illustrate an [existing package](https://github.com/slackapi/node-slack-events-api) which you can use for guidance.
-
-
-**NOTE**: Contact #legal-opensource to request CLA assistant setup for your project
+1. Download the most recent release of `backend-interview-prerequisites` [here](https://github.com/slackhq/backend-interview-prerequisites/releases/latest).
+1. Unzip the project and navigate to the directory for your preferred language.
+1. Follow the instructions in the README for your preferred language to run the `setup` script. If you plan to complete the onsite in Docker or some other containerized environment, we encourage you to run the `setup` script in that environment instead.
+1. If for some reason the `setup` script does not run successfully, follow troubleshooting steps in the README for your preferred language.
+1. (Optional) Configure the project in your preferred IDE to confirm that your IDE will also support the backend onsite interview.
