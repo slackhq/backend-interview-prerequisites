@@ -20,4 +20,4 @@ If for some reason the `setup` script won't run successfully, try the following:
 1. Ensure that SQLite3 is installed.
 1. Manually run `php src/server.php` in one tab and run tests against it (`php tests/test.php`) in another. This is a good approach if your machine can run PHP but can't run bash or PowerShell.
 
-If you try the above and are still having trouble, please reach out to your recruiting coordinator and we'll do our best to assist you.
+If you try the above and are still having trouble, please reach out to your recruiting coordinator and we'll do our best to assist you. If possible, please include relevant stacktraces and system details (OS and language versions, etc) in your message.
