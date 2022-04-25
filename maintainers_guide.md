@@ -1,42 +1,22 @@
 # Maintainers Guide
 
-This document describes tools, tasks and workflow that one needs to be familiar with in order to effectively maintain
-this project. If you use this package within your own software as is but don't plan on modifying it, this guide is
-**not** for you.
-
-## Tools (optional)
-
-> Are there any build tools, dependencies, or other programs someone maintaining this project
-> needs to be familiar with?
+This document describes tools, tasks and workflow that one needs to be familiar with in order to effectively maintain this project. If you do not plan to make changes to this project, this guide is not for you.
 
 ## Tasks
 
 ### Testing
 
-> How do you run the tests?
-
-### Generating Documentation (optional)
-
-> If the documentation is generated from source, how does someone run the generation?
-> Are the docs published on a website (GitHub Pages)?
+Tests for each language are run using the `setup` script found in each language-level directory. Tests are also run by CI when pushing to a branch.
 
 ### Releasing
 
-> A description of the process to make a release for this project. Do not share any secrets here.
+Candidates should use the latest version of `backend-interview-prerequisites`, found [here](https://github.com/slackhq/backend-interview-prerequisites/releases/latest). To release a new version of `backend-interview-prerequisites`, simply cut a new release on GitHub.
 
 ## Workflow
 
 ### Versioning and Tags
 
-> Does this project use semver? What does the numbering system look like? Are releases tagged in git?
-
-### Branches
-
-> Describe any specific branching workflow. For example:
-> `master` is where active development occurs.
-> Long running branches named feature branches are occasionally created for collaboration on a feature that has a large scope (because everyone cannot push commits to another person's open Pull Request)
-> At some point in the future after a major version increment, there may be maintenance branches
-> for older major versions.
+`backend-interview-prerequisites` uses [semver](https://semver.org/). Each new release should increment the PATCH version of the project. We are not yet sure what constitutes minor and major releases for `backend-interview-prerequisites`.
 
 ### Issue Management
 
@@ -55,15 +35,9 @@ Labels are used to run issues through an organized workflow. Here are the basic 
 *  `good first contribution`: An issue that has a well-defined relatively-small scope, with clear expectations. It helps when the testing approach is also known.
 *  `duplicate`: An issue that is functionally the same as another issue. Apply this only if you've linked the other issue by number.
 
-> You may want to add more labels for subsystems of your project, depending on how complex it is.
-
-**Triage** is the process of taking new issues that aren't yet "seen" and marking them with a basic
-level of information with labels. An issue should have **one** of the following labels applied:
-`bug`, `enhancement`, `question`, `needs feedback`, `docs`, `tests`, or `discussion`.
-
 Issues are closed when a resolution has been reached. If for any reason a closed issue seems
 relevant once again, reopening is great and better than creating a duplicate issue.
 
 ## Everything else
 
-When in doubt, find the other maintainers and ask.
+When in doubt, file an issue.

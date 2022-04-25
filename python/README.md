@@ -24,4 +24,4 @@ In addition, it uses:
 
 ## Troubleshooting
 
-If for some reason the `setup.py` script won't run successfully, please file an issue against this repository containing the details of your operating system and any relevant stacktraces or error messages.
+If for some reason the `setup.py` script won't run successfully, please reach out to your recruiting coordinator and we'll do our best to assist you. If possible, please include relevant stacktraces and system details (OS and language versions, etc) in your message.
