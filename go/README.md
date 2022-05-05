@@ -1,3 +1,5 @@
+# WIP - This is not yet ready for use
+
 # Requirements
 
 To check that your system can run the backend onsite exercise in Go, run the `setup.sh` script included in this directory (if you're on Windows, run `setup.bat` "currently missing" instead).
