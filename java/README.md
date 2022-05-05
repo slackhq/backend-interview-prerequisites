@@ -23,4 +23,4 @@ The rest of dependencies will be installed via maven. Please refer to [pom.xml](
 2. Check that you have correct java and maven versions installed
 3. Try running tests via maven CLI versus runnging them from IDE
 
-If all else fails, please file an issue against this repository containing the details of your operating system and any relevant stacktraces.
+If all else fails, please reach out to your recruiting coordinator and include the details of your operating system and any relevant stacktraces. You may also file an issue against this repository.
