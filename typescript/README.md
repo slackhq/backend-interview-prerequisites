@@ -6,7 +6,7 @@ this is written in TypeScript, our JavaScript repository uses the same environme
 
 ## Requirements
 
-- Locally installed nodejs >= 20.10.0 with npm >= 10.2.3
+- Locally installed nodejs >= 22.23.4 with npm >= 10.2.3
 
 ## Installation
 
