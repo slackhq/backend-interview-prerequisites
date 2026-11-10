@@ -1,0 +1,19 @@
+name: Test Lua Setup
+on:
+  push:
+    paths: ["lua/**", ".github/workflows/lua-test.yml"]
+  pull_request:
+    paths: ["lua/**", ".github/workflows/lua-test.yml"]
+  workflow_dispatch:
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: leafo/gh-actions-lua@v11
+        with:
+          luaVersion: "5.4"
+      - uses: leafo/gh-actions-luarocks@v5
+      - run: sh setup.sh
+        working-directory: lua
