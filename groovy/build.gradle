@@ -1,0 +1,14 @@
+plugins {
+    id 'groovy'
+    id 'application'
+}
+repositories { mavenCentral() }
+dependencies {
+    implementation platform('org.apache.groovy:groovy-bom:4.0.24')
+    implementation 'org.apache.groovy:groovy'
+    implementation 'org.apache.groovy:groovy-json'
+    implementation 'org.xerial:sqlite-jdbc:3.47.2.0'
+}
+java { toolchain { languageVersion = JavaLanguageVersion.of(11) } }
+application { mainClass = 'Setup' }
+dependencyLocking { lockAllConfigurations() }
