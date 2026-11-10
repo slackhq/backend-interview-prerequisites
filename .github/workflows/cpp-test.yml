@@ -1,0 +1,22 @@
+name: Test C++ Setup
+on:
+  push:
+    paths: ["cpp/**", ".github/workflows/cpp-test.yml"]
+  pull_request:
+    paths: ["cpp/**", ".github/workflows/cpp-test.yml"]
+  workflow_dispatch:
+jobs:
+  setup:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libsqlite3-dev
+      - if: runner.os == 'macOS'
+        run: brew install sqlite
+      - run: cmake -S . -B build && cmake --build build && ctest --test-dir build --output-on-failure
+        working-directory: cpp
