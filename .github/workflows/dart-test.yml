@@ -1,0 +1,23 @@
+name: Test Dart Setup
+on:
+  push:
+    paths: ["dart/**", ".github/workflows/dart-test.yml"]
+  pull_request:
+    paths: ["dart/**", ".github/workflows/dart-test.yml"]
+  workflow_dispatch:
+jobs:
+  setup:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: "3.13.0"
+      - run: dart pub get
+        working-directory: dart
+      - run: dart analyze && dart run bin/setup.dart
+        working-directory: dart
