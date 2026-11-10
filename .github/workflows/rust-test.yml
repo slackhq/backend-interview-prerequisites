@@ -1,0 +1,21 @@
+name: Test Rust Setup
+on:
+  push:
+    paths: ["rust/**", ".github/workflows/rust-test.yml"]
+  pull_request:
+    paths: ["rust/**", ".github/workflows/rust-test.yml"]
+  workflow_dispatch:
+jobs:
+  setup:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: "1.89"
+      - run: cargo run --locked
+        working-directory: rust
