@@ -1,0 +1,23 @@
+name: Test C# Setup
+on:
+  push:
+    paths: ["csharp/**", ".github/workflows/csharp-test.yml"]
+  pull_request:
+    paths: ["csharp/**", ".github/workflows/csharp-test.yml"]
+  workflow_dispatch:
+jobs:
+  setup:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - run: dotnet restore --locked-mode
+        working-directory: csharp
+      - run: dotnet run --no-restore
+        working-directory: csharp
