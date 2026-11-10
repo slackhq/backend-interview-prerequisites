@@ -1,0 +1,26 @@
+name: Test Swift Setup
+on:
+  push:
+    paths: ["swift/**", ".github/workflows/swift-test.yml"]
+  pull_request:
+    paths: ["swift/**", ".github/workflows/swift-test.yml"]
+  workflow_dispatch:
+jobs:
+  setup:
+    strategy:
+      matrix:
+        os: [ubuntu-22.04, macos-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: swift-actions/setup-swift@v2
+        if: runner.os == 'Linux'
+        with:
+          swift-version: "5.9.2"
+      - if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libsqlite3-dev pkg-config
+      - if: runner.os == 'macOS'
+        run: brew install sqlite
+      - run: swift run
+        working-directory: swift
